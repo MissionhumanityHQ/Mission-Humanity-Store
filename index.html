@@ -1,1 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Humanity Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050508;
+            --card: #0f0f14;
+            --border: rgba(255,255,255,0.07);
+            --text: #f0f0f5;
+            --muted: #666680;
+            --accent1: #7c6aff;
+            --accent2: #ff6a9e;
+            --accent3: #6affce;
+            --accent4: #ffd06a;
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 0 16px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            padding: 50px 0 30px;
+            text-align: center;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(124,106,255,0.15);
+            border: 1px solid rgba(124,106,255,0.3);
+            border-radius: 30px;
+            padding: 6px 16px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: var(--accent1);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 span {
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Search bar */
+        .search-bar {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .search-bar span { font-size: 18px; }
+        .search-bar p { color: var(--muted); font-size: 14px; }
+
+        /* Section label */
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 14px;
+            padding-left: 4px;
+        }
+
+        /* App Cards */
+        .app-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .app-card:active {
+            transform: scale(0.98);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .app-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .icon-purple { background: linear-gradient(135deg, #4a3aff, #9b59ff); }
+        .icon-pink   { background: linear-gradient(135deg, #ff3a7c, #ff6ab0); }
+        .icon-green  { background: linear-gradient(135deg, #00c97a, #00f5a0); }
+        .icon-gold   { background: linear-gradient(135deg, #f5a623, #ffd06a); }
+        .icon-blue   { background: linear-gradient(135deg, #1a78ff, #5ab4ff); }
+
+        .app-meta { flex: 1; }
+
+        .app-meta h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .app-meta .category {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .get-btn {
+            background: rgba(124,106,255,0.15);
+            color: var(--accent1);
+            border: 1px solid rgba(124,106,255,0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+            white-space: nowrap;
+        }
+
+        .get-btn:active {
+            background: var(--accent1);
+            color: white;
+        }
+
+        .app-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .tag-purple { background: rgba(124,106,255,0.12); color: var(--accent1); }
+        .tag-pink   { background: rgba(255,106,158,0.12); color: var(--accent2); }
+        .tag-green  { background: rgba(106,255,206,0.12); color: var(--accent3); }
+        .tag-gold   { background: rgba(255,208,106,0.12); color: var(--accent4); }
+
+        /* Featured card */
+        .featured-card {
+            background: linear-gradient(135deg, #1a1030 0%, #0f1a30 100%);
+            border: 1px solid rgba(124,106,255,0.25);
+            border-radius: 24px;
+            padding: 28px 22px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-card::after {
+            content: '⭐';
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 22px;
+            opacity: 0.6;
+        }
+
+        .featured-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent1);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .featured-card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .featured-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .featured-btn {
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            color: white;
+            border: none;
+            padding: 13px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        .featured-btn:active { opacity: 0.85; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer span {
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .header     { animation: fadeUp 0.5s ease both; }
+        .search-bar { animation: fadeUp 0.5s ease 0.1s both; }
+        .featured-card { animation: fadeUp 0.5s ease 0.2s both; }
+        .app-card:nth-child(1) { animation: fadeUp 0.5s ease 0.3s both; }
+        .app-card:nth-child(2) { animation: fadeUp 0.5s ease 0.4s both; }
+        .app-card:nth-child(3) { animation: fadeUp 0.5s ease 0.5s both; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <div class="logo-badge">🌍 Mission Humanity</div>
+        <h1>Apps that<br><span>change lives</span></h1>
+        <p>Premium & Safe Apps for Everyone</p>
+    </div>
+
+    <div class="search-bar">
+        <span>🔍</span>
+        <p>Search apps...</p>
+    </div>
+
+    <!-- Featured -->
+    <div class="featured-card">
+        <div class="featured-label">✦ Featured App</div>
+        <h2>Women Safety App</h2>
+        <p>Raat ho ya din — akele safar mein aapka sabse bada saathi. Turant madad, bina kisi ke bataye.</p>
+        <button class="featured-btn">Get App — Free</button>
+    </div>
+
+    <div class="section-label">All Apps</div>
+
+    <div class="app-card">
+        <div class="card-top">
+            <div class="app-icon icon-purple">🛡️</div>
+            <div class="app-meta">
+                <h2>Women Safety</h2>
+                <div class="category">Safety & Emergency</div>
+            </div>
+            <button class="get-btn">Get</button>
+        </div>
+        <p class="app-desc">Emergency alert, live location share, aur madad — sab ek jagah.</p>
+        <div class="tags">
+            <span class="tag tag-purple">Free</span>
+            <span class="tag tag-pink">Safety</span>
+        </div>
+    </div>
+
+    <div class="app-card">
+        <div class="card-top">
+            <div class="app-icon icon-green">🎬</div>
+            <div class="app-meta">
+                <h2>AI Video Editor</h2>
+                <div class="category">Creative Tools</div>
+            </div>
+            <button class="get-btn">Soon</button>
+        </div>
+        <p class="app-desc">AI se video banao — effects, captions, sab automatic. Reels ready in seconds.</p>
+        <div class="tags">
+            <span class="tag tag-green">Coming Soon</span>
+            <span class="tag tag-gold">AI Powered</span>
+        </div>
+    </div>
+
+    <div class="app-card">
+        <div class="card-top">
+            <div class="app-icon icon-blue">🎙️</div>
+            <div class="app-meta">
+                <h2>Voice Clone Studio</h2>
+                <div class="category">Audio & Voice</div>
+            </div>
+            <button class="get-btn">Soon</button>
+        </div>
+        <p class="app-desc">Apni awaaz clone karo aur kuch bhi bolwao — content creation ke liye perfect.</p>
+        <div class="tags">
+            <span class="tag tag-purple">Coming Soon</span>
+            <span class="tag tag-green">AI Powered</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with 💛 by <span>Mission Humanity HQ</span><br>
+        <span style="font-size:11px; -webkit-text-fill-color: var(--muted); background: none;">Free. Always. For everyone.</span>
+    </div>
+
+</div>
+</body>
+  </html>
+  
